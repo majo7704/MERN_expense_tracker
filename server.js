@@ -10,10 +10,15 @@ const morgan = require('morgan');
 //tell dotenv where your config is
 dotenv.config({ path: './config/config.env' });
 
+//bring transactions file in
+const transactions = require('./routes/transactions');
+
 //initialize express app
 const app = express();
 
-app.get('/', (req, res) => res.send('Hello YOU'));
+//Mount the file transactions here
+// DELETED ** app.get('/', (req, res) => res.send('Hello YOU'));
+app.use('/api/v1/transactions', transactions);
 
 //to access global variable use process.env
 const PORT = process.env.PORT || 5000;
