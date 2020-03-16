@@ -24,6 +24,11 @@ const app = express();
 //in order to use req.body in addTransaction we need to create a body parser middlewear
 app.use(express.json());
 
+//implement morgan
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
 //Mount the file transactions here
 // DELETED ** app.get('/', (req, res) => res.send('Hello YOU'));
 app.use('/api/v1/transactions', transactions);
