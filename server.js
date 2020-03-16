@@ -7,8 +7,13 @@ const colors = require('colors');
 //Login
 const morgan = require('morgan');
 
+const connectDB = require('./config/db');
+
 //tell dotenv where your config is
 dotenv.config({ path: './config/config.env' });
+
+//call the connectDB function
+connectDB();
 
 //bring transactions file in
 const transactions = require('./routes/transactions');
