@@ -1,4 +1,5 @@
 // 1
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv');
 const colors = require('colors');
@@ -27,11 +28,18 @@ colors.setTheme({
 });
 const transactions = require('./routes/transactions');
 
-const PORT = process.env.PORT || 5000;
-
 //mount the router after requiring(no mor app.get('/',))
 app.use('/api/transactions', transactions);
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+  );
+}
+
+const PORT = process.env.PORT || 5000;
 app.listen(
   PORT,
   console.log(
