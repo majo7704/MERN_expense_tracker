@@ -7,8 +7,12 @@ const connectDB = require('./config/db');
 dotenv.config({ path: './config/config.env' });
 
 connectDB();
+
 // 2
 const app = express();
+
+//body parser middlewear in order to use req.body
+app.use(express.json());
 
 colors.setTheme({
   silly: ['rainbow', 'bold'],
