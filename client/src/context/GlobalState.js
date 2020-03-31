@@ -27,23 +27,44 @@ export const GlobalProvider = ({ children }) => {
     } catch (error) {
       dispatch({
         type: 'TRANSACTION_ERROR',
-        payload: error.res.data.error
+        payload: error.response.data.error
       });
     }
   }
 
-  function deleteTransaction(id) {
-    dispatch({
-      type: 'DELETE_TRANSACTION',
-      payload: id
-    });
+  async function deleteTransaction(_id) {
+    try {
+      await axios.delete(`/api/transactions/${_id}`);
+      dispatch({
+        type: 'DELETE_TRANSACTION',
+        payload: _id
+      });
+    } catch (error) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: error.response.data.error
+      });
+    }
   }
 
-  function addTransaction(transaction) {
-    dispatch({
-      type: 'ADD_TRANSACTION',
-      payload: transaction
-    });
+  async function addTransaction(transaction) {
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    try {
+      const res = await axios.post('/api/transactions', transaction, config);
+      dispatch({
+        type: 'ADD_TRANSACTION',
+        payload: res.data.data
+      });
+    } catch (error) {
+      dispatch({
+        type: 'TRANSACTION_ERROR',
+        payload: error.response.data.error
+      });
+    }
   }
 
   return (
